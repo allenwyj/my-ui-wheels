@@ -1,3 +1,10 @@
+# dist directory
+/dist/*
+
+/.vscode
+# Ignore Mac DS_Store files
+.DS_Store
+
 # Logs
 logs
 *.log

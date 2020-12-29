@@ -8,13 +8,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/allenwyj/my-react-codes.git"
+    "url": "git+https://github.com/allenwyj/my-ui-wheels.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/allenwyj/my-react-codes/issues"
+    "url": "https://github.com/allenwyj/my-ui-wheels/issues"
   },
-  "homepage": "https://github.com/allenwyj/my-react-codes#readme"
+  "homepage": "https://github.com/allenwyj/my-ui-wheels#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {}
 }
