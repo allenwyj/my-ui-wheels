@@ -2,11 +2,12 @@
   "name": "my-ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "awesome-typescript-loader": "^5.2.1",
+    "cross-env": "^7.0.3",
     "html-webpack-plugin": "^4.5.0",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0",
