@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // JS 模块定义
 module.exports = {
@@ -22,5 +23,12 @@ module.exports = {
         loader: 'awesome-typescript-loader' // Transpile .tsx to .ts file
       }
     ]
-  }
+  },
+  plugins: [
+    // automatically adding the latest js script into .html file
+    new HtmlWebpackPlugin({
+      title: 'Simple UI',
+      template: 'index.html'
+    })
+  ]
 };
