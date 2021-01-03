@@ -25,6 +25,30 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: 'svg-sprite-loader'
+      },
+      // {
+      //   test: /\.s([ac])ss$/,
+      //   use: [
+      //     devMode
+      //       ? 'style-loader'
+      //       : {
+      //           loader: MiniCssExtractPlugin.loader,
+      //           options: {
+      //             // publicPath: '../'
+      //           }
+      //         },
+      //     'css-loader',
+      //     {
+      //       loader: 'sass-loader',
+      //       options: {
+      //         includePaths: [path.resolve(__dirname, 'stylesheets', 'include')]
+      //       }
+      //     }
+      //   ]
+      // },
+      {
+        test: /\.s([ac])ss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }
