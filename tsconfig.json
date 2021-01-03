@@ -23,11 +23,6 @@
     "esModuleInterop": true,
     "noUnusedLocals": true
   },
-  "awesomeTypescriptLoaderOptions": {
-    // Use fast transpileModule emit mode. 
-    // Disables automatically when you set compilerOption declaration: true
-    "useTranspileModule": true
-  },
   "include": ["lib/**/*"], // specifying the source files
   "exclude": [
     "node_modules",
