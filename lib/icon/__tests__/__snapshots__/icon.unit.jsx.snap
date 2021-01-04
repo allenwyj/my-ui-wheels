@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon tests expects a svg 1`] = `
+<svg
+  className="sui-icon"
+>
+  <use
+    xlinkHref="#i-alipay"
+  />
+</svg>
+`;
