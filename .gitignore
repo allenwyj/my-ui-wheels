@@ -28,7 +28,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul - testing
 coverage
-/test_reports/jest/
+/test-results/jest/
 *.lcov
 
 # nyc test coverage
