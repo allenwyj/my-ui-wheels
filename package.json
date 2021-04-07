@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "Allen Wu",
   "files": [
-    "/dist"
+    "/dist/**/*"
   ],
   "license": "ISC",
   "bugs": {
