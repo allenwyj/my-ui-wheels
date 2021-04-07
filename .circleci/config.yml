@@ -56,13 +56,23 @@ workflows:
   version: 2
   build_accept_deploy:
     jobs:
-      - prepare
-      - build:
-          requires:
-            - test
+      - prepare:
+          filters: # required since `test` has tag filters AND requires `prepare`
+            tags:
+              only: /.*/
       - test:
           requires:
             - prepare
+          filters: # required since `build` has tag filters AND requires `test`
+            tags:
+              only: /.*/
+      - build:
+          requires:
+            - test
+          filters: # required since `publish` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+
       - publish:
           requires:
             - build
