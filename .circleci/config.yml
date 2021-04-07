@@ -21,6 +21,15 @@ jobs:
           root: .
           paths:
             - node_modules
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: yarn ci
+      - store_test_results:
+          path: test-results
   build:
     <<: *defaults
     steps:
@@ -35,15 +44,6 @@ jobs:
             - package.json
             - LICENSE
             - README.md
-  test:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: yarn ci
-      - store_test_results:
-          path: test-results
   publish:
     <<: *defaults
     steps:
@@ -54,32 +54,49 @@ jobs:
 
 workflows:
   version: 2
-  build_accept_deploy:
+  staging:
+    # This workflow will only run on 'main' and will not run on tags
     jobs:
       - prepare:
-          filters: # required since `test` has tag filters AND requires `prepare`
+          filters: &filters-staging # the yaml anchor for this filters
+            branches:
+              only: main
             tags:
-              only: /.*/
+              ignore: /.*/
       - test:
           requires:
             - prepare
-          filters: # required since `build` has tag filters AND requires `test`
-            tags:
-              only: /.*/
+          filters:
+            <<: *filters-staging # this is calling the previously set yaml anchor
       - build:
           requires:
             - test
-          filters: # required since `publish` has tag filters AND requires `build`
-            tags:
-              only: /.*/
+          filters:
+            <<: *filters-staging # this is calling the previously set yaml anchor
 
+  production:
+    # This workflow will only run on tags (specifically starting with 'v.') and will not run on branches
+    jobs:
+      - prepare:
+          filters: &filters-production
+            branches:
+              # ignore any commit on any branch by default
+              ignore: /.*/
+            tags:
+              # only act on version tags
+              only: /^v.*/
+      - test:
+          requires:
+            - prepare
+          filters:
+            <<: *filters-production
+      - build:
+          requires:
+            - test
+          filters:
+            <<: *filters-production
       - publish:
           requires:
             - build
           filters:
-            # only act on version tags
-            tags:
-              only: /^v.*/
-            # ignore any commit on any branch by default
-            branches:
-              ignore: /.*/
+            <<: *filters-production
