@@ -5,11 +5,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = Object.assign({}, base, {
   // Declare the current mode, development mode or production mode
   mode: 'development',
+  entry: {
+    example: './example.tsx',
+  },
   plugins: [
     // automatically adding the latest js script into .html file
     new HtmlWebpackPlugin({
       title: 'Simple UI',
-      template: 'index.html'
-    })
-  ]
+      template: 'example.html',
+    }),
+  ],
 });
