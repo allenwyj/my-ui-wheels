@@ -1,6 +1,7 @@
 @import '../_helper';
 .sui-dialog {
   position: fixed;
+  z-index: 2;
   font-size: 14px;
   min-width: 20em;
   background: white;
@@ -10,8 +11,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  &-container {
+  &-mask {
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
