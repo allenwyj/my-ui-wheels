@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Dialog from './dialog.component';
+import Dialog, { alert } from './dialog.component';
 
 export default function () {
   const [x, setX] = useState(false);
@@ -36,6 +36,11 @@ export default function () {
         >
           <div>hi</div>
         </Dialog>
+      </div>
+
+      <div>
+        <h1>Example 3</h1>
+        <button onClick={() => alert('1')}>alert</button>
       </div>
     </>
   );
