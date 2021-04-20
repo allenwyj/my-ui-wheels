@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactFragment, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from '../index';
 
@@ -56,30 +56,95 @@ Dialog.defaultProps = {
   closeOnClickMask: false,
 };
 
-// Dynamically creating a component
+// Convenient APIs - alert, confirm, modal
 const alert = (content: string) => {
+  const onClose = () => {
+    // Clone and rerender the component(visible: false) on div
+    ReactDOM.render(React.cloneElement(component, { visible: false }), div);
+    // Unmount div from React DOM
+    ReactDOM.unmountComponentAtNode(div);
+    // Remove the empty div from dom.
+    div.remove();
+  };
+
+  // Dynamically creating a component
   const component = (
     <Dialog
       visible={true}
-      onClose={() => {
-        // Clone and rerender the component(visible: false) on div
-        ReactDOM.render(React.cloneElement(component, { visible: false }), div);
-        // Unmount div from React DOM
-        ReactDOM.unmountComponentAtNode(div);
-        // Remove the empty div from dom.
-        div.remove();
-      }}
+      onClose={onClose}
+      buttons={[<button onClick={onClose}>OK</button>]}
     >
       {content}
     </Dialog>
   );
+
   // Create a targeted div for React portal
   const div = document.createElement('div');
-  document.body.append(div);
+  document.body.appendChild(div);
   // Render the component into div, but it actually will be placed on body.
   ReactDOM.render(component, div);
 };
 
-export { alert };
+const confirm = (content: string, yes?: () => void, no?: () => void) => {
+  const onYes = () => {
+    ReactDOM.render(React.cloneElement(component, { visible: false }), div);
+    // Unmount div from React DOM
+    ReactDOM.unmountComponentAtNode(div);
+    // Remove the empty div from dom.
+    div.remove();
+    yes && yes();
+  };
+
+  const onNo = () => {
+    ReactDOM.render(React.cloneElement(component, { visible: false }), div);
+    // Unmount div from React DOM
+    ReactDOM.unmountComponentAtNode(div);
+    // Remove the empty div from dom.
+    div.remove();
+    no && no();
+  };
+
+  const component = (
+    <Dialog
+      visible={true}
+      onClose={onNo}
+      buttons={[
+        <button onClick={onYes}>yes</button>,
+        <button onClick={onNo}>no</button>,
+      ]}
+    >
+      {content}
+    </Dialog>
+  );
+
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  ReactDOM.render(component, div);
+};
+
+const modal = (content: ReactNode | ReactFragment) => {
+  const onClose = () => {
+    ReactDOM.render(React.cloneElement(component, { visible: false }), div);
+    // Unmount div from React DOM
+    ReactDOM.unmountComponentAtNode(div);
+    // Remove the empty div from dom.
+    div.remove();
+  };
+
+  const component = (
+    <Dialog onClose={onClose} visible={true}>
+      {content}
+    </Dialog>
+  );
+
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  ReactDOM.render(component, div);
+
+  // exposing an api for closing the modal
+  return onClose;
+};
+
+export { alert, confirm, modal };
 
 export default Dialog;
