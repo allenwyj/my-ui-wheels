@@ -1,7 +1,5 @@
 import React from 'react';
 
-const ButtonExample: React.FC = () => {
+export default function () {
   return <div>hii</div>;
-};
-
-export default ButtonExample;
+}

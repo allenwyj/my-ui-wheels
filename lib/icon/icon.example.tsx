@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from './icon.component';
 
-const IconExample: React.FC = () => {
+export default function () {
   return (
     <div>
       <Icon name="alipay" />
@@ -10,6 +10,4 @@ const IconExample: React.FC = () => {
       <Icon name="wechat" />
     </div>
   );
-};
-
-export default IconExample;
+}
