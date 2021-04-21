@@ -11,6 +11,7 @@ interface Props {
   buttons?: Array<ReactElement>;
   onClose: React.MouseEventHandler;
   closeOnClickMask?: boolean;
+  enableMask?: boolean;
 }
 
 const prefixedClassname = classNameMaker('sui-dialog');
@@ -30,7 +31,9 @@ const Dialog: React.FC<Props> = (props) => {
 
   const outputContent = props.visible ? (
     <>
-      <div className={pc('mask')} onClick={onClickMask}></div>
+      {props.enableMask && (
+        <div className={pc('mask')} onClick={onClickMask}></div>
+      )}
       <div className={pc()}>
         <header className={pc('header')}>
           Dialog
@@ -54,6 +57,7 @@ const Dialog: React.FC<Props> = (props) => {
 
 Dialog.defaultProps = {
   closeOnClickMask: false,
+  enableMask: true,
 };
 
 // Convenient APIs - alert, confirm, modal
