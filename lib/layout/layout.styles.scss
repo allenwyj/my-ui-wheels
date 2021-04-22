@@ -15,4 +15,11 @@
     flex-direction: row;
     border: 1px solid blue;
   }
+
+  &.hasAside {
+    flex-direction: row;
+    .sui-layout {
+      flex-direction: column;
+    }
+  }
 }
