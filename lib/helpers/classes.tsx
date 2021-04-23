@@ -12,33 +12,25 @@ interface ClassToggles {
 }
 
 function classNameMaker(prefix: string) {
-  return function (name?: string | ClassToggles, options?: Options) {
-    let name2;
-    let result;
+  return function (name: string | ClassToggles, options?: Options) {
+    const nameInObject = typeof name === 'string' ? { [name]: name } : name;
 
-    // Pairing a name with prefix
-    if (typeof name === 'string' || name === undefined) {
-      name2 = name;
-      // filter if any element in the array is falsy value
-      result = [prefix, name2].filter(Boolean).join('-');
-
-      // Pairing multiple names with prefix individually, and join them together.
-    } else {
-      name2 = Object.entries(name)
-        // return the array which value is true
-        .filter((kv) => kv[1])
-        .map((kv) => kv[0]);
-
-      result = name2
-        .map((el) => [prefix, el].filter(Boolean).join('-'))
-        .join(' ');
-    }
+    // Pairing a name or multiple names with prefix.
+    const prefixedName = Object.entries(nameInObject)
+      // return the array which value is not false (so everything excepts false)
+      .filter((kv) => kv[1] !== false)
+      // take the name(s)
+      .map((kv) => kv[0])
+      // Pairing a name or multiple names with prefix individually
+      .map((name) => [prefix, name].filter(Boolean).join('-'))
+      // and join them together.
+      .join(' ');
 
     // Adding extra class into the result
     if (options && options.extra) {
-      return [result, options.extra].filter(Boolean).join(' ');
+      return [prefixedName, options.extra].filter(Boolean).join(' ');
     }
-    return result;
+    return prefixedName;
   };
 }
 
