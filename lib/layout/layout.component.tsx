@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { classNameMaker } from '../classes';
+import { classNameMaker } from '../helpers/classes';
 import Aside from './aside.component';
 
 import './layout.styles.scss';
@@ -18,7 +18,7 @@ const Layout: React.FunctionComponent<Props> = (props) => {
   // If Layout diretly has chidlren Aside, Layout's display direction will be change to row.
   const childrenAsArray = props.children as Array<ReactElement>;
   const hasAside =
-    childrenAsArray.length &&
+    'length' in childrenAsArray &&
     (props.children as Array<ReactElement>).reduce(
       (result, node) => result || node.type === Aside,
       false
@@ -26,9 +26,12 @@ const Layout: React.FunctionComponent<Props> = (props) => {
 
   return (
     <div
-      className={pc('', {
-        extra: [className, hasAside && 'hasAside'].join(' '),
-      })}
+      className={pc(
+        { '': true, hasAside },
+        {
+          extra: className,
+        }
+      )}
       {...restProps}
     >
       {props.children}

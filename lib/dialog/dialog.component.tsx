@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import { Icon } from '../index';
 
-import { classNameMaker } from '../classes';
+import { classNameMaker } from '../helpers/classes';
 
 import './dialog.styles.scss';
 

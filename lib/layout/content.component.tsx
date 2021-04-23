@@ -1,5 +1,5 @@
 import React from 'react';
-import { classNameMaker } from '../classes';
+import { classNameMaker } from '../helpers/classes';
 
 interface Props extends React.HTMLAttributes<HTMLElement> {}
 const pc = classNameMaker('sui-layout');
