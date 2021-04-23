@@ -34,7 +34,7 @@ const Dialog: React.FC<Props> = (props) => {
       {props.enableMask && (
         <div className={pc('mask')} onClick={onClickMask}></div>
       )}
-      <div className={pc()}>
+      <div className={pc('')}>
         <header className={pc('header')}>
           Dialog
           <div className={pc('close')} onClick={onClickClose}>

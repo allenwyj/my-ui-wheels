@@ -9,7 +9,7 @@ const Header: React.FunctionComponent<Props> = (props) => {
 
   return (
     <div className={pc('header', { extra: className })} {...restProps}>
-      header
+      {props.children}
     </div>
   );
 };

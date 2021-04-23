@@ -9,7 +9,7 @@ const Content: React.FunctionComponent<Props> = (props) => {
 
   return (
     <div className={pc('content', { extra: className })} {...restProps}>
-      content
+      {props.children}
     </div>
   );
 };

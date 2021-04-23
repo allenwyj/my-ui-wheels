@@ -16,7 +16,7 @@
     border: 1px solid blue;
   }
 
-  &.hasAside {
+  &-hasAside {
     flex-direction: row;
     .sui-layout {
       flex-direction: column;
