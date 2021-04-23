@@ -1,4 +1,4 @@
-import classes from '../classes';
+import classes, { classNameMaker } from '../classes';
 
 describe('classes', () => {
   it('accepts one className', () => {
@@ -24,5 +24,18 @@ describe('classes', () => {
   it('accepts 0 parameter', () => {
     const result = classes();
     expect(result).toEqual('');
+  });
+});
+
+describe('classNameMaker', () => {
+  it('accepts string or object', () => {
+    const pc = classNameMaker('sui-layout');
+    expect(pc('')).toEqual('sui-layout');
+    expect(pc('x')).toEqual('sui-layout-x');
+    expect(pc({ y: true, z: false })).toEqual('sui-layout-y');
+    expect(pc({ y: true, z: true })).toEqual('sui-layout-y sui-layout-z');
+    expect(pc({ y: true, z: true }, { extra: 'red' })).toEqual(
+      'sui-layout-y sui-layout-z red'
+    );
   });
 });
