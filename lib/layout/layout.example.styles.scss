@@ -1,0 +1,18 @@
+@import '../_helper.scss';
+
+.x {
+  height: 40px;
+  background: lighten($main-color, 12%);
+  color: white;
+}
+
+.y {
+  background: $main-color;
+  color: white;
+}
+
+.z {
+  background: lighten($main-color, 4%);
+  width: 100px;
+  color: white;
+}

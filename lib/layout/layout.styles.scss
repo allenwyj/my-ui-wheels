@@ -1,19 +1,16 @@
 @import '../helper';
 
 .sui-layout {
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
 
   &-content {
     flex-grow: 1;
-    border: 1px solid green;
   }
 
   & & {
     flex-grow: 1;
     flex-direction: row;
-    border: 1px solid blue;
   }
 
   &-hasAside {
