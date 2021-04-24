@@ -31,6 +31,10 @@ a {
   color: inherit;
 }
 
+pre {
+  font-family: Consolas, monospace;
+}
+
 $padding: 16px;
 $main-color: #409eff;
 $border-color: #eeeeee;
@@ -99,4 +103,8 @@ $border-color: #eeeeee;
   color: #666;
   padding: $padding 0;
   border-top: 1px solid $border-color;
+}
+
+.example {
+  padding: $padding 0;
 }
