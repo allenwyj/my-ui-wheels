@@ -1,44 +1,60 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
 
 import IconExample from './lib/icon/icon.example';
 import ButtonExample from './lib/button/button.example';
 import DialogExample from './lib/dialog/dialog.example';
 import LayoutExample from './lib/layout/layout.example';
+import {
+  Layout,
+  Header,
+  Content,
+  Aside,
+  Footer,
+} from './lib/layout/layout.component';
+
+import './example.scss';
+// FIXME: TS can't recognise .png
+// @ts-ignore
+import logo from './logo.png';
 
 ReactDOM.render(
   <Router>
-    <div>
-      <header>
-        <div className="logo">SUI</div>
-      </header>
-      <div>
-        <aside>
+    <Layout className="site-page">
+      <Header className="site-header">
+        <div className="site-logo">
+          <img src={logo} alt="sui" width="48" height="48" />
+          <span>SUI</span>
+        </div>
+      </Header>
+      <Layout>
+        <Aside className="site-aside">
           <h2>Components</h2>
           <ul>
             <li>
-              <Link to="/icon">Icon</Link>
+              <NavLink to="/icon">Icon</NavLink>
             </li>
             <li>
-              <Link to="/button">Button</Link>
+              <NavLink to="/button">Button</NavLink>
             </li>
             <li>
-              <Link to="/dialog">Dialog</Link>
+              <NavLink to="/dialog">Dialog</NavLink>
             </li>
             <li>
-              <Link to="/layout">Layout</Link>
+              <NavLink to="/layout">Layout</NavLink>
             </li>
           </ul>
-        </aside>
-        <main>
+        </Aside>
+        <Content className="site-content">
           <Route path="/icon" component={IconExample} />
           <Route path="/button" component={ButtonExample} />
           <Route path="/dialog" component={DialogExample} />
           <Route path="/layout" component={LayoutExample} />
-        </main>
-      </div>
-    </div>
+        </Content>
+      </Layout>
+      <Footer className="site-footer">&copy; Yujie Wu</Footer>
+    </Layout>
   </Router>,
   document.getElementById('root')
 );
