@@ -23,7 +23,7 @@
     "esModuleInterop": true,
     "noUnusedLocals": true
   },
-  "include": ["lib/**/*"], // specifying the source files
+  "include": ["lib/types/custom.d.ts", "lib/**/*"], // specifying the source files
   "exclude": [
     "node_modules",
     "build",
