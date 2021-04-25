@@ -4,7 +4,7 @@ import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
 
 import IconDemo from './lib/icon/icon.demo';
 import ButtonExample from './lib/button/button.example';
-import DialogExample from './lib/dialog/dialog.example';
+import DialogDemo from './lib/dialog/dialog.demo';
 import LayoutDemo from './lib/layout/layout.demo';
 import {
   Layout,
@@ -50,7 +50,7 @@ ReactDOM.render(
         <Content className="site-content">
           <Route path="/icon" component={IconDemo} />
           <Route path="/button" component={ButtonExample} />
-          <Route path="/dialog" component={DialogExample} />
+          <Route path="/dialog" component={DialogDemo} />
           <Route path="/layout" component={LayoutDemo} />
         </Content>
       </Layout>

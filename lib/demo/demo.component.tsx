@@ -7,10 +7,12 @@ interface Props {
 const Demo: React.FC<Props> = (props) => {
   const [codeVisible, setCodeVisible] = useState(false);
   return (
-    <>
+    <div>
       <div className="example">{props.children}</div>
       <div>
-        <button onClick={() => setCodeVisible(!codeVisible)}>Show code</button>
+        <button onClick={() => setCodeVisible(!codeVisible)}>
+          {!codeVisible ? 'Show code' : 'Hide code'}
+        </button>
         {codeVisible && (
           <Highlight {...defaultProps} code={props.codes} language="jsx">
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
@@ -27,7 +29,7 @@ const Demo: React.FC<Props> = (props) => {
           </Highlight>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
