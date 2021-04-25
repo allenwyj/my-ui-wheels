@@ -5,7 +5,7 @@ import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
 import IconDemo from './lib/icon/icon.demo';
 import ButtonExample from './lib/button/button.example';
 import DialogExample from './lib/dialog/dialog.example';
-import LayoutExample from './lib/layout/layout.example';
+import LayoutDemo from './lib/layout/layout.demo';
 import {
   Layout,
   Header,
@@ -51,7 +51,7 @@ ReactDOM.render(
           <Route path="/icon" component={IconDemo} />
           <Route path="/button" component={ButtonExample} />
           <Route path="/dialog" component={DialogExample} />
-          <Route path="/layout" component={LayoutExample} />
+          <Route path="/layout" component={LayoutDemo} />
         </Content>
       </Layout>
       <Footer className="site-footer">&copy; Yujie Wu</Footer>
