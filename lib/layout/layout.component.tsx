@@ -24,6 +24,10 @@ const Layout: React.FunctionComponent<Props> = (props) => {
       false
     );
 
+  {
+    // If Layout contains a direct Aside, it will add two classes.
+    // Otherwise, it will only have one class.
+  }
   return (
     <div
       className={pc(
