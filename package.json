@@ -2,10 +2,14 @@
   "name": "aui888",
   "version": "0.0.7",
   "description": "",
-  "main": "dist/lib/index.js",
+  "main": "dist/lib/index",
   "types": "dist/lib/index",
+  "files": [
+    "/dist/**/*"
+  ],
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
+    "doc": "cross-env NODE_ENV=production webpack --config webpack.config.doc.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.js --runInBand",
     "ci": "cross-env NODE_ENV=test jest --config=jest.config.ci.js"
@@ -16,9 +20,6 @@
   },
   "keywords": [],
   "author": "Allen Wu",
-  "files": [
-    "/dist/**/*"
-  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/allenwyj/my-ui-wheels/issues"

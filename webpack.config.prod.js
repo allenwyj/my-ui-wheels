@@ -5,7 +5,8 @@ module.exports = Object.assign({}, base, {
   // Declare the current mode, development mode or production mode
   mode: 'production',
   externals: {
-    // Telling the listing libraries is from the third-party
+    // Telling the listing libraries is from the third-party and will not 
+    // include them while creating bundle.
     // 分别对应四种不同的打包工具
     react: {
       commonjs: 'react',

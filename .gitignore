@@ -1,5 +1,6 @@
 # dist directory
 /dist/*
+/doc/
 
 /.vscode
 /.idea
