@@ -82,6 +82,7 @@ $border-color: #eeeeee;
         &:hover {
           background: lighten($main-color, 35%);
           color: $main-color;
+          transition: all 0.5s;
         }
 
         &.active {
