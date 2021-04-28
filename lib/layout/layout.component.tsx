@@ -25,6 +25,7 @@ const Layout: React.FunctionComponent<Props> = (props) => {
     );
 
   {
+    // '': true - REQUIRED to add the prefix as the classname.
     // If Layout contains a direct Aside, it will add two classes.
     // Otherwise, it will only have one class.
   }
