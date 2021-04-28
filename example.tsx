@@ -13,6 +13,7 @@ import {
   Aside,
   Footer,
 } from './lib/layout/layout.component';
+import FormExample from './lib/form/form.example';
 
 import './example.scss';
 
@@ -45,6 +46,9 @@ ReactDOM.render(
             <li>
               <NavLink to="/layout">Layout</NavLink>
             </li>
+            <li>
+              <NavLink to="/form">Form</NavLink>
+            </li>
           </ul>
         </Aside>
         <Content className="site-content">
@@ -52,6 +56,7 @@ ReactDOM.render(
           <Route path="/button" component={ButtonExample} />
           <Route path="/dialog" component={DialogDemo} />
           <Route path="/layout" component={LayoutDemo} />
+          <Route path="/form" component={FormExample} />
         </Content>
       </Layout>
       <Footer className="site-footer">&copy; Yujie Wu</Footer>
