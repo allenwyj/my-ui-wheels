@@ -8,8 +8,9 @@ interface Props {
   value: FormValue;
   fields: Array<{ name: string; label: string; input: { type: string } }>;
   buttons: ReactFragment;
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
-  onChange: (value: FormValue) => void;
+  onUserSubmit: React.FormEventHandler<HTMLFormElement>;
+  onUserChange: (value: FormValue) => void;
+  errors: { [K: string]: string[] };
 }
 
 const Form: React.FC<Props> = (props) => {
@@ -17,12 +18,12 @@ const Form: React.FC<Props> = (props) => {
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    props.onSubmit(e);
+    props.onUserSubmit(e);
   };
 
   const onInputChange = (name: string, value: string) => {
     const newFormData = { ...formData, [name]: value };
-    props.onChange(newFormData);
+    props.onUserChange(newFormData);
   };
 
   return (
@@ -35,6 +36,7 @@ const Form: React.FC<Props> = (props) => {
             value={formData[field.name]}
             onChange={(e) => onInputChange(field.name, e.target.value)}
           />
+          <div>{props.errors[field.name]}</div>
         </div>
       ))}
       <div>{props.buttons}</div>
