@@ -1,3 +1,4 @@
+import Button from '../button/button.component';
 import React, { useState } from 'react';
 import Form, { FormValue } from './form.component';
 import Validator, { noError } from './validator';
@@ -42,8 +43,10 @@ export default function () {
       errors={errors}
       buttons={
         <>
-          <button type="submit">submit</button>
-          <button>back</button>
+          <Button level="primary" size="large" type="submit">
+            Submit
+          </Button>
+          <Button level="normal">Back</Button>
         </>
       }
       onUserChange={(newValue) => setFormData(newValue)}

@@ -1,4 +1,7 @@
 import React, { ReactFragment } from 'react';
+import Input from '../input/input.component';
+
+import './form.styles.scss';
 
 export interface FormValue {
   [K: string]: any;
@@ -28,18 +31,28 @@ const Form: React.FC<Props> = (props) => {
 
   return (
     <form onSubmit={onSubmit}>
-      {props.fields.map((field) => (
-        <div key={field.name}>
-          {field.label}
-          <input
-            type={field.input.type}
-            value={formData[field.name]}
-            onChange={(e) => onInputChange(field.name, e.target.value)}
-          />
-          <div>{props.errors[field.name]}</div>
-        </div>
-      ))}
-      <div>{props.buttons}</div>
+      <table>
+        {props.fields.map((field) => (
+          <tr className="sui-form-tr" key={field.name}>
+            <td className="sui-form-td">
+              <span>{field.label}</span>
+            </td>
+            <td className="sui-form-td">
+              <Input
+                className="sui-form-input"
+                type={field.input.type}
+                value={formData[field.name]}
+                onChange={(e) => onInputChange(field.name, e.target.value)}
+              />
+              <div>{props.errors[field.name]}</div>
+            </td>
+          </tr>
+        ))}
+        <tr className="sui-form-tr">
+          <td className="sui-form-td" />
+          <td className="sui-form-td">{props.buttons}</td>
+        </tr>
+      </table>
     </form>
   );
 };
