@@ -9,12 +9,4 @@
 
 button {
   box-sizing: border-box;
-  height: 30px;
-  margin: 0 6px;
-  &:first-child {
-    margin-left: 0;
-  }
-  &:last-child {
-    margin-right: 0;
-  }
 }
