@@ -1,0 +1,62 @@
+@import '../helper';
+
+.sui-button {
+  margin: 0;
+  outline: none;
+  line-height: 1;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: all 250ms;
+  cursor: pointer;
+
+  & + & {
+    margin-left: 10px;
+  }
+
+  // ########### Button Type Section ###########
+  // sui-button-normal
+  &-normal {
+    color: #1f2d3d;
+    border: 1px solid #c4c4c4;
+    background: #fff;
+
+    &:focus,
+    &:hover {
+      color: $main-color;
+      border-color: $main-color;
+    }
+  }
+
+  // sui-button-primary
+  &-primary {
+    color: #fff;
+    border: 1px solid $main-color;
+    background: $main-color;
+
+    &:focus,
+    &:hover {
+      background: $main-color-light;
+      border-color: $main-color-light;
+      color: #fff;
+    }
+  }
+
+  // TODO: text, info, danger, ....
+
+  // ########### Button Size Section ###########
+  // sui-button-large
+  &-large {
+    font-size: 16px;
+    padding: 11px 19px;
+  }
+
+  &-medium {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  &-small {
+    font-size: 12px;
+    padding: 7px 9px;
+  }
+}
