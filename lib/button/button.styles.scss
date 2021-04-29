@@ -6,11 +6,28 @@
   line-height: 1;
   border-radius: 4px;
   white-space: nowrap;
-  transition: all 250ms;
+  transition: all 100ms;
   cursor: pointer;
 
   & + & {
     margin-left: 10px;
+  }
+
+  // ########### Button Size Section ###########
+  // sui-button-large
+  &-large {
+    font-size: 16px;
+    padding: 11px 19px;
+  }
+
+  &-medium {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  &-small {
+    font-size: 12px;
+    padding: 7px 9px;
   }
 
   // ########### Button Type Section ###########
@@ -39,24 +56,140 @@
       border-color: $main-color-light;
       color: #fff;
     }
+
+    // Plain button style
+    &.no-background {
+      color: #1f2d3d;
+      border-color: #c4c4c4;
+      background: #fff;
+
+      &:hover,
+      &:focus {
+        border-color: $main-color;
+        color: $main-color;
+      }
+    }
   }
 
-  // TODO: text, info, danger, ....
+  // sui-button-text
+  &-text {
+    padding-left: 0;
+    padding-right: 0;
+    color: $main-color;
+    border: none;
+    background: 0 0;
 
-  // ########### Button Size Section ###########
-  // sui-button-large
-  &-large {
-    font-size: 16px;
-    padding: 11px 19px;
+    &:focus,
+    &:hover {
+      color: $color-blue-light;
+    }
   }
 
-  &-medium {
-    font-size: 14px;
-    padding: 10px 15px;
+  // sui-button-success
+  &-success {
+    color: #fff;
+    border: 1px solid $color-green;
+    background: $color-green;
+
+    &:focus,
+    &:hover {
+      background: $color-green-light;
+      border-color: $color-green-light;
+      color: #fff;
+    }
+
+    // Plain button style
+    &.no-background {
+      color: #1f2d3d;
+      border-color: #c4c4c4;
+      background: #fff;
+
+      &:hover,
+      &:focus {
+        border-color: $color-green-light;
+        color: $color-green-light;
+      }
+    }
   }
 
-  &-small {
-    font-size: 12px;
-    padding: 7px 9px;
+  // sui-button-warning
+  &-warning {
+    color: #fff;
+    border: 1px solid $color-yellow;
+    background: $color-yellow;
+
+    &:focus,
+    &:hover {
+      background: $color-yellow-light;
+      border-color: $color-yellow-light;
+      color: #fff;
+    }
+
+    // Plain button style
+    &.no-background {
+      color: #1f2d3d;
+      border-color: #c4c4c4;
+      background: #fff;
+
+      &:hover,
+      &:focus {
+        border-color: $color-yellow-light;
+        color: $color-yellow-light;
+      }
+    }
+  }
+
+  // sui-button-danger
+  &-danger {
+    color: #fff;
+    border: 1px solid $color-red;
+    background: $color-red;
+
+    &:focus,
+    &:hover {
+      background: $color-red-light;
+      border-color: $color-red-light;
+      color: #fff;
+    }
+
+    // Plain button style
+    &.no-background {
+      color: #1f2d3d;
+      border-color: #c4c4c4;
+      background: #fff;
+
+      &:hover,
+      &:focus {
+        border-color: $color-red-light;
+        color: $color-red-light;
+      }
+    }
+  }
+
+  // sui-button-info
+  &-info {
+    color: #fff;
+    border: 1px solid $color-blue;
+    background: $color-blue;
+
+    &:focus,
+    &:hover {
+      background: $color-blue-light;
+      border-color: $color-blue-light;
+      color: #fff;
+    }
+
+    // Plain button style
+    &.no-background {
+      color: #1f2d3d;
+      border-color: #c4c4c4;
+      background: #fff;
+
+      &:hover,
+      &:focus {
+        border-color: $color-blue-light;
+        color: $color-blue-light;
+      }
+    }
   }
 }

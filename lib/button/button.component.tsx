@@ -12,10 +12,18 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'info'
     | 'text';
   size?: 'large' | 'medium' | 'small';
+  noBackground?: Boolean;
 }
 
 const Button: React.FC<Props> = (props) => {
-  const { className, children, level, size, ...restProps } = props;
+  const {
+    className,
+    children,
+    level,
+    size,
+    noBackground,
+    ...restProps
+  } = props;
 
   return (
     <button
@@ -23,6 +31,7 @@ const Button: React.FC<Props> = (props) => {
         'sui-button',
         `sui-button-${level}`,
         `sui-button-${size}`,
+        `${noBackground ? 'no-background' : ''}`,
         className
       )}
       {...restProps}
@@ -35,6 +44,7 @@ const Button: React.FC<Props> = (props) => {
 Button.defaultProps = {
   level: 'normal',
   size: 'medium',
+  noBackground: false,
 };
 
 export default Button;
