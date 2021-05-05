@@ -14,6 +14,7 @@ interface Props {
   onUserSubmit: React.FormEventHandler<HTMLFormElement>;
   onUserChange: (value: FormValue) => void;
   errors: { [K: string]: string[] };
+  errorsDisplay?: 'first' | 'all';
 }
 
 const Form: React.FC<Props> = (props) => {
@@ -31,30 +32,46 @@ const Form: React.FC<Props> = (props) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <table>
-        {props.fields.map((field) => (
-          <tr className="sui-form-tr" key={field.name}>
-            <td className="sui-form-td">
-              <span>{field.label}</span>
-            </td>
-            <td className="sui-form-td">
-              <Input
-                className="sui-form-input"
-                type={field.input.type}
-                value={formData[field.name]}
-                onChange={(e) => onInputChange(field.name, e.target.value)}
-              />
-              <div>{props.errors[field.name]}</div>
-            </td>
+      <table className="sui-form-table">
+        <tbody>
+          {props.fields.map((field) => (
+            <tr className="sui-form-tr" key={field.name}>
+              <td className="sui-form-td">
+                <span className="sui-form-label">{field.label}</span>
+              </td>
+              <td className="sui-form-td">
+                <Input
+                  className="sui-form-input"
+                  type={field.input.type}
+                  value={formData[field.name]}
+                  onChange={(e) => onInputChange(field.name, e.target.value)}
+                />
+                <div className="sui-form-message">
+                  {props.errors[field.name] ? (
+                    props.errorsDisplay === 'first' ? (
+                      props.errors[field.name][0]
+                    ) : (
+                      props.errors[field.name].join(', ')
+                    )
+                  ) : (
+                    <span>&nbsp;</span>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+          <tr className="sui-form-tr">
+            <td className="sui-form-td" />
+            <td className="sui-form-td">{props.buttons}</td>
           </tr>
-        ))}
-        <tr className="sui-form-tr">
-          <td className="sui-form-td" />
-          <td className="sui-form-td">{props.buttons}</td>
-        </tr>
+        </tbody>
       </table>
     </form>
   );
+};
+
+Form.defaultProps = {
+  errorsDisplay: 'first',
 };
 
 export default Form;

@@ -1,7 +1,18 @@
+@import '../helper.scss';
+
 .sui-form {
+  &-table {
+    border-collapse: collapse;
+  }
+
+  &-label {
+    line-height: 36px;
+  }
+
   &-td {
+    vertical-align: top;
     padding-top: 0px;
-    padding-bottom: 32px;
+    padding-bottom: 8px;
   }
 
   &-tr:last-child &-td {
@@ -10,5 +21,11 @@
 
   &-td + &-td {
     padding-left: 8px;
+  }
+
+  &-message {
+    margin-top: 2px;
+    color: $color-red-light;
+    font-size: 0.8em;
   }
 }
