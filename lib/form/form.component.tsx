@@ -15,26 +15,51 @@ interface Props {
   onUserChange: (value: FormValue) => void;
   errors: { [K: string]: string[] };
   errorsDisplay?: 'first' | 'all';
+  customisedErrorMessage?: (message: string) => string;
 }
 
 const Form: React.FC<Props> = (props) => {
-  const formData = props.value;
+  const {
+    fields,
+    buttons,
+    errors,
+    errorsDisplay,
+    customisedErrorMessage,
+    onUserChange,
+    onUserSubmit,
+    value: formData,
+  } = props;
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    props.onUserSubmit(e);
+    onUserSubmit(e);
   };
 
   const onInputChange = (name: string, value: string) => {
     const newFormData = { ...formData, [name]: value };
-    props.onUserChange(newFormData);
+    onUserChange(newFormData);
+  };
+
+  // Using for displaying either the customised error message or the default error message.
+  const newErrorMessage = (message: string) => {
+    const errorMessage: any = {
+      required: 'This field cannot be empty.',
+      minLen: 'The length of this field is too short.',
+      maxLen: 'The length of this field is too long.',
+    };
+
+    return (
+      (customisedErrorMessage && customisedErrorMessage(message)) ||
+      errorMessage[message] ||
+      'Unknown error.'
+    );
   };
 
   return (
     <form onSubmit={onSubmit}>
       <table className="sui-form-table">
         <tbody>
-          {props.fields.map((field) => (
+          {fields.map((field) => (
             <tr className="sui-form-tr" key={field.name}>
               <td className="sui-form-td">
                 <span className="sui-form-label">{field.label}</span>
@@ -47,11 +72,11 @@ const Form: React.FC<Props> = (props) => {
                   onChange={(e) => onInputChange(field.name, e.target.value)}
                 />
                 <div className="sui-form-message">
-                  {props.errors[field.name] ? (
-                    props.errorsDisplay === 'first' ? (
-                      props.errors[field.name][0]
+                  {errors[field.name] ? (
+                    errorsDisplay === 'first' ? (
+                      newErrorMessage(errors[field.name][0])
                     ) : (
-                      props.errors[field.name].join(', ')
+                      errors[field.name].map(newErrorMessage).join(', ')
                     )
                   ) : (
                     <span>&nbsp;</span>
@@ -62,7 +87,7 @@ const Form: React.FC<Props> = (props) => {
           ))}
           <tr className="sui-form-tr">
             <td className="sui-form-td" />
-            <td className="sui-form-td">{props.buttons}</td>
+            <td className="sui-form-td">{buttons}</td>
           </tr>
         </tbody>
       </table>

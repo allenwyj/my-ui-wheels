@@ -6,118 +6,121 @@ interface FormRule {
   minLen?: number;
   maxLen?: number;
   pattern?: RegExp;
-  validator?: {
-    name: string;
-    validate: (value: string) => Promise<void>;
-  };
+  customValidator?: (value: string) => Promise<string>;
 }
 
 type FormRules = Array<FormRule>;
 
-interface ErrorInfo {
-  message: string;
-  promise?: Promise<any>;
-}
-
-function isEmpty(value: any) {
-  return value === undefined || value === null || value === '';
-}
-
-export function noError(errors: any) {
-  return Object.keys(errors).length === 0;
-}
+type ErrorInfo = string | Promise<string>;
 
 const Validator = (
   formValue: FormValue,
   rules: FormRules,
   onCallback: (errors: any) => void
 ): void => {
-  let errors: any = {};
+  // errors object: {key1: [error1, error2, ...], key2: [], key3: [], ...}
+  const errors: { [K: string]: ErrorInfo[] } = {};
 
-  // error can contain a promise.
-  // error object: {key1:[{message, promise?}, {}, {}, ...], key2: [], key3: [], ...}
+  // error can be a promise.
   const addError = (key: string, error: ErrorInfo) => {
-    if (errors[key] === undefined) {
-      errors[key] = [];
-    }
+    errors[key] = errors[key] || [];
     errors[key].push(error);
   };
 
+  // Applying each rule to its validating value.
   for (const rule of rules) {
     const userInput = formValue[rule.key];
 
     // If the custom validtor exists
-    if (rule.validator && rule.validator.validate) {
-      console.log('Has custom validator.');
-      const promise = rule.validator.validate(userInput);
-      addError(rule.key, { message: 'The username already exists.', promise });
+    if (rule.customValidator) {
+      const promise = rule.customValidator(userInput);
+      addError(rule.key, promise);
     }
 
     if (rule.required && isEmpty(userInput)) {
-      addError(rule.key, { message: 'Required' });
+      addError(rule.key, 'required');
     }
 
     if (rule.minLen && !isEmpty(userInput) && userInput.length < rule.minLen) {
-      addError(rule.key, { message: 'Too short' });
+      addError(rule.key, 'minLen');
     }
 
     if (rule.maxLen && !isEmpty(userInput) && userInput.length > rule.maxLen) {
-      addError(rule.key, { message: 'Too long' });
+      addError(rule.key, 'maxLen');
     }
 
     if (rule.pattern && !isEmpty(userInput)) {
-      if (!rule.pattern.test(userInput)) {
-        addError(rule.key, { message: 'Invalid pattern' });
-      }
+      !rule.pattern.test(userInput) && addError(rule.key, 'pattern');
     }
   }
 
-  const promiseList = flat(Object.values(errors))
-    .filter((el) => el.promise)
-    .map((el) => el.promise);
-
-  // Passing the errors object back when all asynchronous events are resolved/rejected.
-  Promise.all(promiseList).then(
-    () => {
-      // FIXME: Unique username will still get error message.
-      console.log('onFulfilled');
-      const newErrorsList = Object.keys(errors).map<[string, string[]]>(
-        (key) => [key, errors[key].map((el: ErrorInfo) => el.message)]
-      );
-      const newErrorsObj = fromEntries(newErrorsList);
-
-      onCallback(newErrorsObj);
-    },
-    () => {
-      console.log('onRejected');
-      // Getting the message from each error
-      const newErrorsList = Object.keys(errors).map<[string, string[]]>(
-        (key) => [key, errors[key].map((el: ErrorInfo) => el.message)]
-      );
-      const newErrorsObj = fromEntries(newErrorsList);
-
-      onCallback(newErrorsObj);
-    }
+  // [[key1, error1], [key1, error2], [key2, error1], ...]
+  const flattenErrorList = flat(
+    // For each key in errors, splitting each key's errors into [key, error]
+    // array format.
+    // error can be a string or Promise<string>.
+    Object.keys(errors).map((key) => {
+      return errors[key].map<[string, ErrorInfo]>((stringOrPromise) => [
+        key,
+        stringOrPromise,
+      ]);
+    })
   );
+
+  const promiseList = flattenErrorList.map(([key, stringOrPromise]) => {
+    const promise =
+      stringOrPromise instanceof Promise
+        ? stringOrPromise
+        : Promise.reject(stringOrPromise);
+
+    // Although the promise gets rejected, the new promise returned by promise.then() will be in resolved.
+    return promise.then<[string, undefined], [string, string]>(
+      // Custom validator (promise) passed.
+      () => [key, undefined],
+      // Returning a value will not cause the Promise([key, reason]) returned by then rejected.
+      (reason: string) => [key, reason]
+    );
+  });
+
+  Promise.all(promiseList).then((results) => {
+    onCallback(zip(results.filter<[string, string]>(hasError)));
+  });
 };
 
-export default Validator;
+function isEmpty(value: any) {
+  return value === undefined || value === null || value === '';
+}
+
+// Excluding undefined error array
+function hasError(
+  error: [string, undefined] | [string, string]
+): error is [string, string] {
+  return typeof error[1] === 'string';
+}
+
+function noError(errors: any) {
+  return Object.keys(errors).length === 0;
+}
 
 // flat() creates a new array with its sub-array elements.
-const flat = (inputArray: Array<any>) => {
-  const result = [];
+function flat<T>(inputArray: Array<T | T[]>) {
+  const result: T[] = [];
   for (const el of inputArray) {
     el instanceof Array ? result.push(...el) : result.push(el);
   }
 
   return result;
-};
+}
 
-const fromEntries = (inputArray: Array<[string, string[]]>) => {
-  const result: { [key: string]: string[] } = {};
-  for (const el of inputArray) {
-    result[el[0]] = el[1];
-  }
-
+// kvList = [[key1: value1], [key1, value2], ...]
+function zip(kvList: Array<[string, string]>) {
+  const result: { [K: string]: string[] } = {};
+  kvList.map(([key, value]) => {
+    result[key] = result[key] || [];
+    result[key].push(value);
+  });
   return result;
-};
+}
+
+export default Validator;
+export { noError };

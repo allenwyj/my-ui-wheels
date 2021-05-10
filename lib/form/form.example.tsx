@@ -3,25 +3,25 @@ import React, { useState } from 'react';
 import Form, { FormValue } from './form.component';
 import Validator, { noError } from './validator';
 
-// The existing usernames
-const usernames = ['allen', 'tom', 'jacky'];
-// Sitimulating an Ajax call.
+// This function creates an asynchronous event which
+// is to stimulate an API call for checking whether
+// the username already exists in the database or not.
 const checkUserName = (
   username: string,
   onSuccess: () => void,
   onFailure: () => void
 ) => {
-  setTimeout(() => {
-    console.log('setTimeout runs');
+  // The existing usernames
+  const usernames = ['allen1234', 'tom1234', 'jacky1234'];
 
+  // Sitimulating an Ajax call.
+  setTimeout(() => {
     // username is NOT unique
     if (usernames.indexOf(username) >= 0) {
-      console.log('Not unique');
       onFailure();
 
       // username is unique
     } else {
-      console.log('Unique');
       onSuccess();
     }
   }, 3000);
@@ -33,8 +33,8 @@ export default function () {
     password: '',
   });
 
-  // Fields to be displayed
-  // input property decides the input type
+  // Fields to be displayed on the form.
+  // input - decides the input type
   const [fields] = useState([
     { name: 'username', label: 'Username', input: { type: 'text' } },
     { name: 'password', label: 'Password', input: { type: 'password' } },
@@ -42,39 +42,51 @@ export default function () {
 
   const [errors, setErrors] = useState({});
 
+  // Custom username validator with a custom checking process.
+  const customUsernameValidator = (username: string) => {
+    // Custom validator rule.
+    return new Promise<string>((resolve, reject) => {
+      checkUserName(
+        username,
+        () => resolve('success'),
+        // The rejected reason will be used as the displayed error message,
+        // unless it gets customised by customisedErrorMessage().
+        () => reject('unique')
+      );
+    });
+  };
+
+  const customisedErrorMessage = (message: string) => {
+    const errorMessage: any = {
+      unique: 'The username already exists.',
+    };
+
+    return errorMessage[message];
+  };
+
   const onUserSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // Determining the rules for validating user inputs.
-    // The order of rules decides the order of validations.
+    // This is to determine the rules for form validations.
+    // The key decides the field that the rule will be applied to.
+    // The order of rules decides the order of validations and the final output.
     const rules = [
       { key: 'username', required: true },
       { key: 'username', minLen: 8, maxLen: 16 },
-      {
-        key: 'username',
-        // Custom validator with a custom process of validation.
-        validator: {
-          name: 'unique',
-          validate(username: string) {
-            console.log('Calling custom validator.validate method.');
-            return new Promise<void>((resolve, reject) => {
-              checkUserName(username, resolve, reject);
-            });
-          },
-        },
-      },
       { key: 'username', pattern: /^[A-Za-z0-9]+$/ },
+      { key: 'username', customValidator: customUsernameValidator },
       { key: 'password', required: true },
     ];
 
-    // Validating user inputs
-    Validator(formData, rules, (errors) => {
-      console.log('All checks have been made.');
-      console.log(errors);
+    // Having the logic of how to perform or consume no error / having errors. 
+    const errorConsumption = (errors: any) => {
       if (noError(errors)) {
-        // No error performed.
+        // Performed when no error.
       } else {
         setErrors(errors);
       }
-    });
+    };
+
+    // Validating user inputs
+    Validator(formData, rules, errorConsumption);
   };
 
   return (
@@ -92,6 +104,7 @@ export default function () {
       }
       onUserChange={(newValue) => setFormData(newValue)}
       onUserSubmit={onUserSubmit}
+      customisedErrorMessage={customisedErrorMessage}
     />
   );
 }
